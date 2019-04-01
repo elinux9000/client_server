@@ -43,6 +43,7 @@ unsigned long elapsed_time(void);
 #define get_tid() (syscall(__NR_gettid))
 #define dbg_printf(...) do {\
 	if (debug_output) {\
+		flockfile(stdout);\
 		if (PRINT_ELAPSED_TIME) {\
 			unsigned long t = elapsed_time();\
 			printf("%01lu.%03lu:", t / 1000, t % 1000);\
@@ -50,11 +51,13 @@ unsigned long elapsed_time(void);
 		if (PRINT_THREAD_ID)\
 			printf("pid %lu:", syscall(__NR_gettid));\
 		printf(__VA_ARGS__);\
-		fflush(stdout);\
+		funlockfile(stdout);\
 	} \
 } \
 while (0)
 #define dbg_perror()	do { printf("In %s at line %d ", __func__, __LINE__); perror(""); } while (0)
 
 #define HANDLE_FATAL_ERROR do { printf("fatal error in %s line %d\n", __func__, __LINE__); exit(1); }  while (0)
+
+#define DEFAULT_PORT 54321
 #endif // __COMMON_H__

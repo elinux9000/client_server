@@ -10,7 +10,7 @@
 "  -h                  Show this help message\n"
 
 //File scope variables
-static bool debug_output;// = true;
+bool debug_output;// = true;
 
 //Global variables
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -40,9 +40,9 @@ static void _sig_handler(int signo)
 int main(int argc, char **argv)
 {
 	int option_char = 0;
-	unsigned short port = 12345;
+	unsigned short port = DEFAULT_PORT;
 	unsigned short nworkerthreads = 1;
-	const char *server = "www.yourserver.com";
+	const char *server = "localhost";
 
 	/* disable buffering on stdout so it prints immediately */
 	setbuf(stdout, NULL);

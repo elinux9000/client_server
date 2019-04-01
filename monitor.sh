@@ -25,11 +25,16 @@ do
 	cscope -b 
 	make check 
 	if [ $? -eq 0 ];then
+		make clean
 		make 
 		if [ $? -eq 0 ];then
 			clear
 			echo "compilation OK"
-			./rcserver -d
+			./rcserver -d &
+			pid=$!
+			sleep 10
+			kill $pid
+
 		fi
 	fi
 	modified="$(inotifywait -e modify -e move_self $FILE)"
